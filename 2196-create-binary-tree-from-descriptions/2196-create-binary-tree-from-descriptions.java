@@ -1,0 +1,38 @@
+class Solution {
+    public TreeNode createBinaryTree(int[][] descriptions) {
+        HashMap<Integer, TreeNode> mp = new HashMap<>();
+        HashMap<Integer, Integer> root = new HashMap<>();
+        for (int[] d : descriptions) {
+            int parent = d[0];
+            int child = d[1];
+            int isLeft = d[2];
+            if (!mp.containsKey(parent)) {
+                mp.put(parent, new TreeNode(parent));
+            }
+            if (!mp.containsKey(child)) {
+                mp.put(child, new TreeNode(child));
+            }
+            if (isLeft == 1) {
+                mp.get(parent).left = mp.get(child);
+            } else {
+                mp.get(parent).right = mp.get(child);
+            }
+            if (root.getOrDefault(parent, 0) != -1) {
+                root.put(parent, 1);
+            }
+            root.put(child, -1);
+        }
+        int rootVal = 0;
+        for (var entry : root.entrySet()) {
+            if (entry.getValue() == 1) {
+                rootVal = entry.getKey();
+                break;
+            }
+        }
+        return mp.get(rootVal);
+    }
+}
+
+// Synced seamlessly with LeetHub Pro
+// Pro features: https://bit.ly/leethubpro | Free version: https://bit.ly/leethubv4
+// Get it here: https://chromewebstore.google.com/detail/bcilpkkbokcopmabingnndookdogmbna
